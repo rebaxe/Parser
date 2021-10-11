@@ -1,3 +1,4 @@
+import { GrammarRule } from './GrammarRule.js'
 import { Token } from './Token.js'
 
 /**
@@ -13,15 +14,16 @@ export class Tokenizer {
   /**
    * Creates an instance of Tokenizer.
    *
-   * @param {Array<object>} grammar An array of objects containing grammar definitions.
+   * @param {Array<GrammarRule>} grammar An array of objects containing grammar rule definitions.
    * @param {string} string The string to be tokenized.
    */
   constructor (grammar, string) {
     this._string = string
-    this._grammarType = grammar
+    this._grammar = Array.from(grammar, rule => new GrammarRule(rule))
     this._matchingTokens = []
     this._activeTokenIndex = 0
     this._activeToken = {}
+    this.tokenize()
   }
 
   get stringToAnalyze () {
@@ -63,63 +65,22 @@ export class Tokenizer {
   }
 
   _compareStringToGrammars() {
-    let newTokenValue = ''
-    let newTokenType = ''
-
-    for (let i = 0; i < this._grammarType.length; i++) {
-      const currentMatch = this._findMatchingToken(this._grammarType[i])
-      if (this._applyMaximalMunch(currentMatch, newTokenValue)) {
-        newTokenValue = currentMatch
-        newTokenType = this._grammarType[i].tokenType
-      }
+    const newToken = {
+      tokenType: '',
+      tokenValue: ''
     }
-    this._handleNoMatch(newTokenValue)
-    this.stringToAnalyze = this.stringToAnalyze.slice(newTokenValue.length)
-    this._addToken(newTokenType, newTokenValue)
-  }
-
-  _applyMaximalMunch(currentLongestMatch, newMatch) {
-    return currentLongestMatch.length > newMatch.length
-  }
-
-  _isOnlySpaces () {
-    const regExp = /\S/
-    return !regExp.test(this.stringToAnalyze)
-  }
-
-  /**
-   * Checks if the string matches the current grammar.
-   *
-   * @param {object} grammar An object representing the current grammar.
-   * @returns {string} a string representing the matching string.
-   */
-  _findMatchingToken (grammar) {
-    let match = ''
-    this.stringToAnalyze = this.stringToAnalyze.trim()    
-    for (let i = 0; i < this.stringToAnalyze.length; i++) {
-      if (grammar.tokenRegExp.test(this.stringToAnalyze[i])) {
-        match += this.stringToAnalyze[i]
-      } else {
-        return match
+  
+    this._grammar.forEach(rule => {
+      const match = rule.findMatchingToken(this.stringToAnalyze)
+      if (this._isMaximalMunch(match, newToken.tokenValue)) {
+        newToken.tokenValue = match
+        newToken.tokenType = rule.tokenType
       }
-    }
-    return match
-  }
-
-  /**
-   * Adds a token to found matching tokens.
-   *
-   * @param {string} type A string representing the token type.
-   * @param {string} value A string representing the token value.
-   */
-  _addToken (type, value) {
-    const newToken = new Token(type, value)
-    this.matchingTokenSet.push(newToken)
-  }
-
-  _addEndToken () {
-    const endToken = new Token('END', '')
-    this.matchingTokenSet.push(endToken)
+    })
+  
+    this._handleNoMatch(newToken.tokenValue)
+    this._cutTokenFromString(newToken.tokenValue)
+    this._addToken(newToken)
   }
 
   /**
@@ -133,6 +94,35 @@ export class Tokenizer {
       throw new Error('Found tokens that did not match')
     }
   }
+  
+  _isMaximalMunch(currentLongestMatch, newMatch) {
+    return currentLongestMatch.length > newMatch.length
+  }
+
+  _cutTokenFromString(tokenValue) {
+    this.stringToAnalyze = this.stringToAnalyze.trim().slice(tokenValue.length)
+  }
+
+  _isOnlySpaces () {
+    const regExp = /\S/
+    return !regExp.test(this.stringToAnalyze)
+  }
+
+  /**
+   * Adds a token to found matching tokens.
+   *
+   * @param {object} newToken An object representing the new token.
+   */
+  _addToken ({ tokenType, tokenValue }) {
+    const newToken = new Token(tokenType, tokenValue)
+    this.matchingTokenSet.push(newToken)
+  }
+
+  _addEndToken () {
+    const endToken = new Token('END', '')
+    this.matchingTokenSet.push(endToken)
+  }
+
 
   _updateActiveToken () {
     this.currentActiveToken = this.matchingTokenSet[this._activeTokenIndex]
@@ -140,16 +130,24 @@ export class Tokenizer {
 
   moveToNextToken () {
     // Only allow to get next token as long as active token is not the last match.
-    if (this._activeTokenIndex < (this.matchingTokenSet.length - 1)) {
+    if (this._isNotLastToken()) {
       this._activeTokenIndex++
     }
     this._updateActiveToken()
   }
 
+  _isNotLastToken() {
+    return this._activeTokenIndex < (this.matchingTokenSet.length - 1)
+  }
+
   moveToPreviousToken () {
-    if (this._activeTokenIndex > 0) {
+    if (this._isNotFirstToken()) {
       this._activeTokenIndex--
     }
     this._updateActiveToken()
+  }
+
+  _isNotFirstToken() {
+    return this._activeTokenIndex > 0
   }
 }

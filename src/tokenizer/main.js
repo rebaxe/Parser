@@ -1,5 +1,5 @@
 import { Tokenizer } from './Tokenizer.js'
-import { Grammar } from './Grammar.js'
+import { GrammarRule } from './GrammarRule.js'
 
 /**
  * A function to run the program.
@@ -9,6 +9,6 @@ import { Grammar } from './Grammar.js'
  * @returns {Tokenizer} Returns an instance of the type Tokenizer.
  */
 export function initTokenizer (grammar, string) {
-    const grammars = Array.from(grammar, g => new Grammar(g))
-    return new Tokenizer(grammars, string)
+    // const grammarRules = Array.from(grammar, rule => new GrammarRule(rule))
+    return new Tokenizer(grammar, string)
 }
