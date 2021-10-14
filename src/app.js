@@ -1,7 +1,6 @@
 import { Document } from './Document.js'
-import { initTokenizer } from './tokenizer/main.js'
 
-const wordAndDotGrammar = [{
+const grammar = [{
   tokenType: 'WORD',
   tokenRegExp: /^[\w|åäöÅÄÖ]+/
 }, {
@@ -15,14 +14,14 @@ const wordAndDotGrammar = [{
   tokenRegExp: /\?/
 }]
 
-function parse () {
-  const tokenizer = initTokenizer(wordAndDotGrammar, 'I love parsers! They are fun. Right?')
-  // console.log(tokenizer.matchingTokenSet)
-  const document = new Document(tokenizer)
-  console.log(document.getAllSentences())
-  console.log(document.getRegularSentences())
-  console.log(document.getExpressions())
-  console.log(document.getQuestions())
+const text = 'I love parsers! They are fun. Right?'
+
+function parse (grammar, text) {
+  const document = new Document(grammar, text)
+  console.log(document.getAllSentencesAsStrings())
+  console.log(document.getRegularSentencesAsStrings())
+  console.log(document.getExpressionsAsStrings())
+  console.log(document.getQuestionsAsStrings())
 }
 
-parse()
+parse(grammar, text)
