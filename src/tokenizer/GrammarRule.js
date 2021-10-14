@@ -49,6 +49,7 @@
     }
     return match
   }
+
   _trimString(string) {
     return string.trim()
   }
