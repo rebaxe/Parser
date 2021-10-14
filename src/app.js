@@ -22,6 +22,7 @@ function parse () {
   console.log(document.getAllSentences())
   console.log(document.getRegularSentences())
   console.log(document.getExpressions())
+  console.log(document.getQuestions())
 }
 
 parse()

@@ -24,33 +24,58 @@ import { Tokenizer } from './tokenizer/Tokenizer.js'
     const tokens = this._tokenizer.matchingTokenSet
     let newSentence = []
     tokens.forEach(token => {
-      if (token.tokenType === 'WORD') {
+      if (this._isWord(token)) {
         newSentence.push(token)
-      } else if (token.tokenType === 'DOT') {
+      } else if (this._isDot(token)) {
         newSentence.push(token)
-        const sentence = new RegularSentence(newSentence)
+        this._sentences.addSentence(this._createRegularSentence(newSentence))
         newSentence = []
-        this._sentences.addSentence(sentence)
-      } else if (token.tokenType === 'EXCLAMATION') {
+      } else if (this._isExclamation(token)) {
         newSentence.push(token)
-        const sentence = new Expression(newSentence)
+        this._sentences.addSentence(this._createExpression(newSentence))
         newSentence = []
-        this._sentences.addSentence(sentence)
-      } else if (token.tokenType === 'QUESTIONMARK') {
+      } else if (this._isQuestionMark(token)) {
         newSentence.push(token)
-        const sentence = new Question(newSentence)
+        this._sentences.addSentence(this._createQuestion(newSentence))
         newSentence = []
-        this._sentences.addSentence(sentence)
       }
     })
   }
 
+  _isQuestionMark(token) {
+    return token.tokenType === 'QUESTIONMARK'
+  }
+
+  _isExclamation(token) {
+    return token.tokenType === 'EXCLAMATION'
+  }
+
+  _isDot(token) {
+    return token.tokenType === 'DOT'
+  }
+
+  _isWord(token) {
+    return token.tokenType === 'WORD'
+  }
+
+  _createQuestion(tokens) {
+    return new Question(tokens)
+  }
+
+  _createExpression(tokens) {
+    return new Expression(tokens)
+  }
+
+  _createRegularSentence(tokens) {
+    return new RegularSentence(tokens)
+  }
+
   getAllSentences () {
-    return this._sentences
+    return this._sentences.sentences.map(sentence => sentence.stringSentence)
   }
 
   getRegularSentences () {
-    return this._filterRegularSentences()
+    return this._filterRegularSentences().map(sentence => sentence.stringSentence)
   }
 
   _filterRegularSentences () {
@@ -66,7 +91,7 @@ import { Tokenizer } from './tokenizer/Tokenizer.js'
   }
 
   getExpressions () {
-    return this._filterExpressions()
+    return this._filterExpressions().map(sentence => sentence.stringSentence)
   }
 
   _filterExpressions () {
@@ -79,5 +104,21 @@ import { Tokenizer } from './tokenizer/Tokenizer.js'
 
   _isExpression (sentence) {
     return sentence instanceof Expression
+  }
+
+  getQuestions () {
+    return this._filterQuestions().map(sentence => sentence.stringSentence)
+  }
+
+  _filterQuestions () {
+    return this._sentences.sentences.filter(sentence => {
+      if (this._isQuestion(sentence)) {
+        return sentence
+      }
+    })
+  }
+
+  _isQuestion (sentence) {
+    return sentence instanceof Question
   }
  }
