@@ -21,53 +21,7 @@ import { Tokenizer } from './tokenizer/Tokenizer.js'
   }
 
   _parseTokens () {
-    const tokens = this._tokenizer.matchingTokenSet
-    let newSentence = []
-    tokens.forEach(token => {
-      if (this._isWord(token)) {
-        newSentence.push(token)
-      } else if (this._isDot(token)) {
-        newSentence.push(token)
-        this._sentences.addSentence(this._createRegularSentence(newSentence))
-        newSentence = []
-      } else if (this._isExclamation(token)) {
-        newSentence.push(token)
-        this._sentences.addSentence(this._createExpression(newSentence))
-        newSentence = []
-      } else if (this._isQuestionMark(token)) {
-        newSentence.push(token)
-        this._sentences.addSentence(this._createQuestion(newSentence))
-        newSentence = []
-      }
-    })
-  }
-
-  _isQuestionMark(token) {
-    return token.tokenType === 'QUESTIONMARK'
-  }
-
-  _isExclamation(token) {
-    return token.tokenType === 'EXCLAMATION'
-  }
-
-  _isDot(token) {
-    return token.tokenType === 'DOT'
-  }
-
-  _isWord(token) {
-    return token.tokenType === 'WORD'
-  }
-
-  _createQuestion(tokens) {
-    return new Question(tokens)
-  }
-
-  _createExpression(tokens) {
-    return new Expression(tokens)
-  }
-
-  _createRegularSentence(tokens) {
-    return new RegularSentence(tokens)
+    this._sentences.buildSentencesFromTokens(this._tokenizer.matchingTokenSet)
   }
 
   getAllSentences () {
@@ -75,50 +29,34 @@ import { Tokenizer } from './tokenizer/Tokenizer.js'
   }
 
   getRegularSentences () {
-    return this._filterRegularSentences().map(sentence => sentence.stringSentence)
+    return this._fetchRegularSentences().map(sentence => sentence.stringSentence)
   }
 
-  _filterRegularSentences () {
-    return this._sentences.sentences.filter(sentence => {
-      if (this._isRegularSentence(sentence)) {
-        return sentence
-      }
-    })
-  }
-
-  _isRegularSentence (sentence) {
-    return sentence instanceof RegularSentence
+  _fetchRegularSentences () {
+    return this._sentences.filterRegularSentences()
   }
 
   getExpressions () {
-    return this._filterExpressions().map(sentence => sentence.stringSentence)
+    return this._fetchExpressions().map(sentence => sentence.stringSentence)
   }
 
-  _filterExpressions () {
-    return this._sentences.sentences.filter(sentence => {
-      if (this._isExpression(sentence)) {
-        return sentence
-      }
-    })
+  _fetchExpressions () {
+    return this._sentences.filterExpressions()
   }
 
-  _isExpression (sentence) {
-    return sentence instanceof Expression
-  }
+  // _isExpression (sentence) {
+  //   return sentence instanceof Expression
+  // }
 
   getQuestions () {
-    return this._filterQuestions().map(sentence => sentence.stringSentence)
+    return this._fetchQuestions().map(sentence => sentence.stringSentence)
   }
 
-  _filterQuestions () {
-    return this._sentences.sentences.filter(sentence => {
-      if (this._isQuestion(sentence)) {
-        return sentence
-      }
-    })
+  _fetchQuestions () {
+    return this._sentences.filterQuestions()
   }
 
-  _isQuestion (sentence) {
-    return sentence instanceof Question
-  }
+  // _isQuestion (sentence) {
+  //   return sentence instanceof Question
+  // }
  }
