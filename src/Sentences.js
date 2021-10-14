@@ -26,10 +26,4 @@ import { RegularSentence } from './RegularSentence.js'
     storedSentences.push(sentence)
     this.sentences = storedSentences
   }
-
-  printSentences () {
-    this._sentences.forEach(sentence => {
-      console.log(sentence.stringSentence)
-    })
-  }
  }
