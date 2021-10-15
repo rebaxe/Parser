@@ -2,6 +2,9 @@ import { wordAndDotGrammar } from './testData.js'
 import { initTokenizer } from '../src/tokenizer/main.js'
 import { Document } from '../src/Document.js'
 import { Sentences } from '../src/Sentences.js'
+import { RegularSentence } from '../src/RegularSentence.js'
+import { Expression } from '../src/Expression.js'
+import { Question } from '../src/Question.js'
 
 describe('Get sentences in string format', () => {
   it('All sentences returns expected strings', () => {
@@ -47,5 +50,29 @@ describe('Get the expected length', () => {
 describe('Error handling', () => {
   it('Should throw error if sentence has no valid end token.', () => {
     expect(() => new Document(wordAndDotGrammar, 'Bb')).toThrow('Invalid end token: sentence must end with ".", "!" or "?".')
+  })
+  it('Should throw error if unvalid tokens in text string.', () => {
+    expect(() => new Document(wordAndDotGrammar, 'Bb*')).toThrow(Error)
+  })
+  it('Should throw error if string is empty.', () => {
+    expect(() => new Document(wordAndDotGrammar, '  ')).toThrow(Error)
+  })
+})
+
+describe('Types of sentences', () => {
+  it('Sentence should be of type regular sentence.', () => {
+    const myDocument = new Document(wordAndDotGrammar, 'A b.')
+    const sentence = myDocument._sentences._sentences[0]
+    expect(sentence instanceof RegularSentence).toEqual(true)
+  })
+  it('Sentence should be of type expression.', () => {
+    const myDocument = new Document(wordAndDotGrammar, 'A b!')
+    const sentence = myDocument._sentences._sentences[0]
+    expect(sentence instanceof Expression).toEqual(true)
+  })
+  it('Sentence should be of type question.', () => {
+    const myDocument = new Document(wordAndDotGrammar, 'A b?')
+    const sentence = myDocument._sentences._sentences[0]
+    expect(sentence instanceof Question).toEqual(true)
   })
 })

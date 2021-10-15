@@ -16,7 +16,7 @@ const grammar = [{
 
 const text = 'I love parsers! They are fun. Right?'
 
-function parse (grammar, text) {
+function parse (text) {
   const document = new Document(grammar, text)
   console.log(document.getAllSentencesAsStrings())
   console.log(document.getRegularSentencesAsStrings())
@@ -24,4 +24,4 @@ function parse (grammar, text) {
   console.log(document.getQuestionsAsStrings())
 }
 
-parse(grammar, text)
+parse(text)

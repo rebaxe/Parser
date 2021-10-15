@@ -25,32 +25,48 @@ import { RegularSentence } from './RegularSentence.js'
 
   buildSentencesFromTokens(tokens) {
     if (this._isValidSentenceEndToken(tokens)) {
-      let newSentence = []
-      tokens.forEach(token => {
-        if (this._isWord(token)) {
-          newSentence.push(token)
-        } else if (this._isDot(token)) {
-          newSentence.push(token)
-          this._addSentence(this._createRegularSentence(newSentence))
-          newSentence = []
-        } else if (this._isExclamation(token)) {
-          newSentence.push(token)
-          this._addSentence(this._createExpression(newSentence))
-          newSentence = []
-        } else if (this._isQuestionMark(token)) {
-          newSentence.push(token)
-          this._addSentence(this._createQuestion(newSentence))
-          newSentence = []
-        }
-      })
+      this._filterSentencesFromTokens(tokens)
     } else {
-      throw new Error('Invalid end token: sentence must end with ".", "!" or "?".')
+      this._throwInvalidSentenceError()
     }
   }
-
+  
   _isValidSentenceEndToken(tokens) {
     const tokenBeforeEnd = tokens[tokens.length - 2]
-    return (this._isDot(tokenBeforeEnd) || this._isExclamation(tokenBeforeEnd) || this._isQuestionMark(tokenBeforeEnd))
+    return this._isEndToken(tokenBeforeEnd)
+  }
+
+  _isEndToken(token) {
+    return (this._isDot(token) || this._isExclamation(token) || this._isQuestionMark(token))
+  }
+
+  _filterSentencesFromTokens(tokens) {
+    let newSentence = []
+    tokens.forEach(token => {
+      if (this._isWord(token)) {
+        newSentence.push(token)
+      } else if (this._isDot(token)) {
+        newSentence.push(token)
+        this._addSentence(this._createRegularSentence(newSentence))
+        newSentence = []
+      } else if (this._isExclamation(token)) {
+        newSentence.push(token)
+        this._addSentence(this._createExpression(newSentence))
+        newSentence = []
+      } else if (this._isQuestionMark(token)) {
+        newSentence.push(token)
+        this._addSentence(this._createQuestion(newSentence))
+        newSentence = []
+      }
+    })
+  }
+
+  _throwInvalidSentenceError() {
+    throw new Error('Invalid end token: sentence must end with ".", "!" or "?".')
+  }
+
+  _isWord(token) {
+    return token.tokenType === 'WORD'
   }
 
   _isQuestionMark(token) {
@@ -63,10 +79,6 @@ import { RegularSentence } from './RegularSentence.js'
 
   _isDot(token) {
     return token.tokenType === 'DOT'
-  }
-
-  _isWord(token) {
-    return token.tokenType === 'WORD'
   }
 
   _createQuestion(tokens) {
@@ -122,5 +134,4 @@ import { RegularSentence } from './RegularSentence.js'
   _isQuestion (sentence) {
     return sentence instanceof Question
   }
-
  }
