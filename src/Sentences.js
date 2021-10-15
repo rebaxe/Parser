@@ -1,3 +1,4 @@
+import { InvalidEndTokenError } from './errors/InvalidEndTokenError.js'
 import { Expression } from './Expression.js'
 import { Question } from './Question.js'
 import { RegularSentence } from './RegularSentence.js'
@@ -62,7 +63,7 @@ import { RegularSentence } from './RegularSentence.js'
   }
 
   _throwInvalidSentenceError() {
-    throw new Error('Invalid end token: sentence must end with ".", "!" or "?".')
+    throw new InvalidEndTokenError('Invalid end token: sentence must end with ".", "!" or "?".')
   }
 
   _isWord(token) {

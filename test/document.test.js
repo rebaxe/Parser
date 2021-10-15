@@ -1,10 +1,9 @@
 import { wordAndDotGrammar } from './testData.js'
-import { initTokenizer } from '../src/tokenizer/main.js'
 import { Document } from '../src/Document.js'
-import { Sentences } from '../src/Sentences.js'
 import { RegularSentence } from '../src/RegularSentence.js'
 import { Expression } from '../src/Expression.js'
 import { Question } from '../src/Question.js'
+import { InvalidEndTokenError } from '../src/errors/InvalidEndTokenError.js'
 
 describe('Get sentences in string format', () => {
   it('All sentences returns expected strings', () => {
@@ -49,7 +48,7 @@ describe('Get the expected length', () => {
 
 describe('Error handling', () => {
   it('Should throw error if sentence has no valid end token.', () => {
-    expect(() => new Document(wordAndDotGrammar, 'Bb')).toThrow('Invalid end token: sentence must end with ".", "!" or "?".')
+    expect(() => new Document(wordAndDotGrammar, 'Bb')).toThrow(InvalidEndTokenError)
   })
   it('Should throw error if unvalid tokens in text string.', () => {
     expect(() => new Document(wordAndDotGrammar, 'Bb*')).toThrow(Error)
