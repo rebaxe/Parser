@@ -1,4 +1,4 @@
-export const wordAndDotGrammar = [{
+export const grammar = [{
   tokenType: 'WORD',
   tokenRegExp: /^[\w|åäöÅÄÖ]+/
 }, {

@@ -16,88 +16,18 @@ import { RegularSentence } from './RegularSentence.js'
     this._sentences = []
   }
 
-  get sentences () {
+  get parsedSentences () {
     return this._sentences
   }
 
-  set sentences (value) {
+  set parsedSentences (value) {
     this._sentences = value
-  }
-
-  buildSentencesFromTokens(tokens) {
-    if (this._isValidSentenceEndToken(tokens)) {
-      this._filterSentencesFromTokens(tokens)
-    } else {
-      this._throwInvalidSentenceError()
-    }
-  }
-  
-  _isValidSentenceEndToken(tokens) {
-    const tokenBeforeEnd = tokens[tokens.length - 2]
-    return this._isEndToken(tokenBeforeEnd)
-  }
-
-  _isEndToken(token) {
-    return (this._isDot(token) || this._isExclamation(token) || this._isQuestionMark(token))
-  }
-
-  _filterSentencesFromTokens(tokens) {
-    let newSentence = []
-    tokens.forEach(token => {
-      if (this._isWord(token)) {
-        newSentence.push(token)
-      } else if (this._isDot(token)) {
-        newSentence.push(token)
-        this._addSentence(this._createRegularSentence(newSentence))
-        newSentence = []
-      } else if (this._isExclamation(token)) {
-        newSentence.push(token)
-        this._addSentence(this._createExpression(newSentence))
-        newSentence = []
-      } else if (this._isQuestionMark(token)) {
-        newSentence.push(token)
-        this._addSentence(this._createQuestion(newSentence))
-        newSentence = []
-      }
-    })
-  }
-
-  _throwInvalidSentenceError() {
-    throw new InvalidEndTokenError('Invalid end token: sentence must end with ".", "!" or "?".')
-  }
-
-  _isWord(token) {
-    return token.tokenType === 'WORD'
-  }
-
-  _isQuestionMark(token) {
-    return token.tokenType === 'QUESTIONMARK'
-  }
-
-  _isExclamation(token) {
-    return token.tokenType === 'EXCLAMATION'
-  }
-
-  _isDot(token) {
-    return token.tokenType === 'DOT'
-  }
-
-  _createQuestion(tokens) {
-    return new Question(tokens)
-  }
-
-  _createExpression(tokens) {
-    return new Expression(tokens)
-  }
-
-  _createRegularSentence(tokens) {
-    return new RegularSentence(tokens)
   }
 
   _addSentence (sentence) {
     const storedSentences = this._sentences
     storedSentences.push(sentence)
-    this.sentences = storedSentences
+    this.parsedSentences = storedSentences
   }
 
   filterRegularSentences() {

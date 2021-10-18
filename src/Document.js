@@ -1,9 +1,5 @@
-import { Expression } from './Expression.js'
-import { Question } from './Question.js'
-import { RegularSentence } from './RegularSentence.js'
+import { Parser } from './Parser.js'
 import { Sentences } from './Sentences.js'
-import { initTokenizer } from './tokenizer/main.js'
-import { Tokenizer } from './tokenizer/Tokenizer.js'
 
 /**
  * Represents a document.
@@ -13,29 +9,29 @@ import { Tokenizer } from './tokenizer/Tokenizer.js'
  export class Document {
   /**
    * Creates an instance of Document.
+   * @param {Tokenizer} tokenizer
    */
-  constructor (grammars, text) {
-    this._grammars = grammars
-    this._text = text
-    this._tokenizer = initTokenizer(grammars, text)
+  constructor (tokenizer) {
+    this._tokenizer = tokenizer
     this._sentences = new Sentences()
+    this._parser = new Parser(this._sentences)
     this._parseTokens()
   }
 
   _parseTokens () {
-    this._sentences.buildSentencesFromTokens(this._tokenizer.matchingTokenSet)
+    this._parser.buildSentencesFromTokens(this._tokenizer.matchingTokenSet)
   }
 
   getAllSentencesAsStrings () {
-    return this._fetchAllSentences().map(sentence => sentence.stringSentence)
+    return this._fetchAllSentences().map(sentence => sentence.getStringSentence)
   }
 
   _fetchAllSentences () {
-    return this._sentences.sentences
+    return this._sentences.parsedSentences
   }
 
   getRegularSentencesAsStrings () {
-    return this._fetchRegularSentences().map(sentence => sentence.stringSentence)
+    return this._fetchRegularSentences().map(sentence => sentence.getStringSentence)
   }
 
   _fetchRegularSentences () {
@@ -43,7 +39,7 @@ import { Tokenizer } from './tokenizer/Tokenizer.js'
   }
 
   getExpressionsAsStrings () {
-    return this._fetchExpressions().map(sentence => sentence.stringSentence)
+    return this._fetchExpressions().map(sentence => sentence.getStringSentence)
   }
 
   _fetchExpressions () {
@@ -51,7 +47,7 @@ import { Tokenizer } from './tokenizer/Tokenizer.js'
   }
 
   getQuestionsAsStrings () {
-    return this._fetchQuestions().map(sentence => sentence.stringSentence)
+    return this._fetchQuestions().map(sentence => sentence.getStringSentence)
   }
 
   _fetchQuestions () {
