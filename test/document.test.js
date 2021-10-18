@@ -3,6 +3,7 @@ import { Expression } from '../src/Expression.js'
 import { Question } from '../src/Question.js'
 import { InvalidEndTokenError } from '../src/errors/InvalidEndTokenError.js'
 import { parse } from '../src/app.js'
+import { expect, it } from '@jest/globals'
 
 describe('Get sentences in string format', () => {
   it('All sentences returns expected strings', () => {
@@ -72,5 +73,22 @@ describe('Types of sentences', () => {
     const myDocument = parse('A b?')
     const sentence = myDocument._sentences._sentences[0]
     expect(sentence instanceof Question).toEqual(true)
+  })
+
+  describe('Words', () => {
+    it('Sentence should have two words.', () => {
+      const myDocument = parse('A b.')
+      const sentences = myDocument._fetchAllSentences()
+      const sentence = sentences[0]
+      const words = sentence._tokens
+      expect(words.length).toEqual(3)
+    })
+    it('Second word should be \'b\'.', () => {
+      const myDocument = parse('A b.')
+      const sentences = myDocument._fetchAllSentences()
+      const sentence = sentences[0]
+      const words = sentence._tokens
+      expect(words[1].tokenValue).toEqual('b')
+    } )
   })
 })
