@@ -46,20 +46,24 @@ import { RegularSentence } from './RegularSentence.js'
     tokens.forEach(token => {
       if (this._isWord(token)) {
         newSentence.push(token)
-      } else if (this._isDot(token)) {
-        newSentence.push(token)
-        this._addSentence(this._createRegularSentence(newSentence))
-        newSentence = []
-      } else if (this._isExclamation(token)) {
-        newSentence.push(token)
-        this._addSentence(this._createExpression(newSentence))
-        newSentence = []
-      } else if (this._isQuestionMark(token)) {
-        newSentence.push(token)
-        this._addSentence(this._createQuestion(newSentence))
+      } else {
+        this._handleSentenceEnd(newSentence, token)
         newSentence = []
       }
     })
+  }
+
+  _handleSentenceEnd(newSentence, token) {
+    if (this._isDot(token)) {
+      newSentence.push(token)
+      this._addSentence(this._createRegularSentence(newSentence))
+    } else if (this._isExclamation(token)) {
+      newSentence.push(token)
+      this._addSentence(this._createExpression(newSentence))
+    } else if (this._isQuestionMark(token)) {
+      newSentence.push(token)
+      this._addSentence(this._createQuestion(newSentence))
+    }
   }
 
   _throwInvalidSentenceError() {

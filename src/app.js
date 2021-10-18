@@ -21,7 +21,7 @@ export function parse (text) {
 }
 
 const parser = parse('I love parsers! They are fun. Right?')
-  console.log(parser.getAllSentencesAsStrings())
-  console.log(parser.getRegularSentencesAsStrings())
-  console.log(parser.getExpressionsAsStrings())
-  console.log(parser.getQuestionsAsStrings())
+console.log(parser.getAllSentencesAsStrings())
+console.log(parser.getRegularSentencesAsStrings())
+console.log(parser.getExpressionsAsStrings())
+console.log(parser.getQuestionsAsStrings())
