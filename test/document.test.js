@@ -3,7 +3,6 @@ import { Expression } from '../src/Expression.js'
 import { Question } from '../src/Question.js'
 import { InvalidEndTokenError } from '../src/errors/InvalidEndTokenError.js'
 import { parse } from '../src/app.js'
-import { expect, it } from '@jest/globals'
 
 describe('Get sentences in string format', () => {
   it('All sentences returns expected strings', () => {
