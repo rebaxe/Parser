@@ -1,10 +1,4 @@
-import { Expression } from './Expression.js'
-import { Question } from './Question.js'
-import { RegularSentence } from './RegularSentence.js'
 import { Sentences } from './Sentences.js'
-// import { initTokenizer } from './tokenizer/main.js'
-// import { Tokenizer } from './tokenizer/Tokenizer.js'
-// import { initTokenizer } from '@rebaxe/tokenizer'
 
 /**
  * Represents a document.
@@ -17,9 +11,6 @@ import { Sentences } from './Sentences.js'
    * @param {Tokenizer} tokenizer
    */
   constructor (tokenizer) {
-    // this._grammars = grammars
-    // this._text = text
-    // this._tokenizer = initTokenizer(grammars, text)
     this._tokenizer = tokenizer
     this._sentences = new Sentences()
     this._parseTokens()
