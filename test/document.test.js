@@ -1,10 +1,7 @@
-import { grammar } from './testData.js'
-import { Document } from '../src/Document.js'
 import { RegularSentence } from '../src/RegularSentence.js'
 import { Expression } from '../src/Expression.js'
 import { Question } from '../src/Question.js'
 import { InvalidEndTokenError } from '../src/errors/InvalidEndTokenError.js'
-import { initTokenizer } from '@rebaxe/tokenizer'
 import { parse } from '../src/app.js'
 
 describe('Get sentences in string format', () => {
