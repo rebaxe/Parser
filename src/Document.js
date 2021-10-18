@@ -27,7 +27,7 @@ import { Sentences } from './Sentences.js'
   }
 
   _fetchAllSentences () {
-    return this._sentences.sentences
+    return this._sentences.parsedSentences
   }
 
   getRegularSentencesAsStrings () {

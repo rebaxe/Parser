@@ -16,18 +16,18 @@ import { RegularSentence } from './RegularSentence.js'
     this._sentences = []
   }
 
-  get sentences () {
+  get parsedSentences () {
     return this._sentences
   }
 
-  set sentences (value) {
+  set parsedSentences (value) {
     this._sentences = value
   }
 
   _addSentence (sentence) {
     const storedSentences = this._sentences
     storedSentences.push(sentence)
-    this.sentences = storedSentences
+    this.parsedSentences = storedSentences
   }
 
   filterRegularSentences() {
