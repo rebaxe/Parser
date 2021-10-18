@@ -1,7 +1,14 @@
 {
   "name": "l2",
   "version": "0.1.0",
+  "description": "The laboration 2 assignment - parser.",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.lnu.se:1dv610/student/ra223ai/l2.git"
+  },
+  "author": "Rebecca Axelsson <ra223ai@lnu.se>",
+  "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
