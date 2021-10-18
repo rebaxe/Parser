@@ -1,3 +1,4 @@
+import { initTokenizer } from '@rebaxe/tokenizer'
 import { Document } from './Document.js'
 
 const grammar = [{
@@ -14,14 +15,13 @@ const grammar = [{
   tokenRegExp: /\?/
 }]
 
-const text = 'I love parsers! They are fun. Right?'
-
-function parse (text) {
-  const document = new Document(grammar, text)
-  console.log(document.getAllSentencesAsStrings())
-  console.log(document.getRegularSentencesAsStrings())
-  console.log(document.getExpressionsAsStrings())
-  console.log(document.getQuestionsAsStrings())
+export function parse (text) {
+  const tokenizer = initTokenizer(grammar, text)
+  return new Document(tokenizer)
 }
 
-parse(text)
+const parser = parse('I love parsers! They are fun. Right?')
+  console.log(parser.getAllSentencesAsStrings())
+  console.log(parser.getRegularSentencesAsStrings())
+  console.log(parser.getExpressionsAsStrings())
+  console.log(parser.getQuestionsAsStrings())
