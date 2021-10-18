@@ -23,7 +23,7 @@ import { Sentences } from './Sentences.js'
   }
 
   getAllSentencesAsStrings () {
-    return this._fetchAllSentences().map(sentence => sentence.stringSentence)
+    return this._fetchAllSentences().map(sentence => sentence.getStringSentence)
   }
 
   _fetchAllSentences () {
@@ -31,7 +31,7 @@ import { Sentences } from './Sentences.js'
   }
 
   getRegularSentencesAsStrings () {
-    return this._fetchRegularSentences().map(sentence => sentence.stringSentence)
+    return this._fetchRegularSentences().map(sentence => sentence.getStringSentence)
   }
 
   _fetchRegularSentences () {
@@ -39,7 +39,7 @@ import { Sentences } from './Sentences.js'
   }
 
   getExpressionsAsStrings () {
-    return this._fetchExpressions().map(sentence => sentence.stringSentence)
+    return this._fetchExpressions().map(sentence => sentence.getStringSentence)
   }
 
   _fetchExpressions () {
@@ -47,7 +47,7 @@ import { Sentences } from './Sentences.js'
   }
 
   getQuestionsAsStrings () {
-    return this._fetchQuestions().map(sentence => sentence.stringSentence)
+    return this._fetchQuestions().map(sentence => sentence.getStringSentence)
   }
 
   _fetchQuestions () {
