@@ -1,3 +1,4 @@
+import { Parser } from './Parser.js'
 import { Sentences } from './Sentences.js'
 
 /**
@@ -13,11 +14,12 @@ import { Sentences } from './Sentences.js'
   constructor (tokenizer) {
     this._tokenizer = tokenizer
     this._sentences = new Sentences()
+    this._parser = new Parser(this._sentences)
     this._parseTokens()
   }
 
   _parseTokens () {
-    this._sentences.buildSentencesFromTokens(this._tokenizer.matchingTokenSet)
+    this._parser.buildSentencesFromTokens(this._tokenizer.matchingTokenSet)
   }
 
   getAllSentencesAsStrings () {
