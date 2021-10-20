@@ -1,7 +1,7 @@
 {
-  "name": "l2",
+  "name": "@rebaxe/parser",
   "version": "1.0.0",
-  "description": "The laboration 2 assignment - parser.",
+  "description": "1DV610 Laboration 2 - parser.",
   "main": "app.js",
   "type": "module",
   "scripts": {
