@@ -1,4 +1,7 @@
+import { Expression } from './Expression.js'
 import { Parser } from './Parser.js'
+import { Question } from './Question.js'
+import { RegularSentence } from './RegularSentence.js'
 import { Sentences } from './Sentences.js'
 
 /**
@@ -22,32 +25,19 @@ import { Sentences } from './Sentences.js'
     this._parser.buildSentencesFromTokens(this._tokenizer.matchingTokenSet)
   }
 
-  // getAllSentencesAsStrings () {
-  //   const sentences = []   
-  //   this._fetchAllSentences().forEach(s => {
-  //     sentences.push({
-  //       string: s.getStringSentence,
-  //       type: this._sentences.getSentenceType(s)
-  //     })
-  //   })
-  //   return sentences
-  // }
-
   fetchAllSentences () {
     return this._sentences
   }
 
   fetchRegularSentences () {
-    return this._sentences.filterRegularSentences()
+    return this._sentences.filterSentences(RegularSentence)
   }
-
 
   fetchExpressions () {
-    return this._sentences.filterExpressions()
+    return this._sentences.filterSentences(Expression)
   }
 
-
   fetchQuestions () {
-    return this._sentences.filterQuestions()
+    return this._sentences.filterSentences(Question)
   }
  }

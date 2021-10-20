@@ -30,49 +30,57 @@ import { RegularSentence } from './RegularSentence.js'
     this.parsedSentences = storedSentences
   }
 
-  filterRegularSentences() {
+  filterSentences(sentenceType) {
     return this._sentences.filter(sentence => {
-      if (this._isRegularSentence(sentence)) {
+      if (sentence instanceof sentenceType) {
         return sentence
       }
     })
   }
 
-  _isRegularSentence (sentence) {
-    return sentence instanceof RegularSentence
-  }
+  // filterRegularSentences() {
+  //   return this._sentences.filter(sentence => {
+  //     if (this._isRegularSentence(sentence)) {
+  //       return sentence
+  //     }
+  //   })
+  // }
 
-  filterExpressions () {
-    return this._sentences.filter(sentence => {
-      if (this._isExpression(sentence)) {
-        return sentence
-      }
-    })
-  }
+  // _isRegularSentence (sentence) {
+  //   return sentence instanceof RegularSentence
+  // }
 
-  _isExpression (sentence) {
-    return sentence instanceof Expression
-  }
+  // filterExpressions () {
+  //   return this._sentences.filter(sentence => {
+  //     if (this._isExpression(sentence)) {
+  //       return sentence
+  //     }
+  //   })
+  // }
 
-  filterQuestions () {
-    return this._sentences.filter(sentence => {
-      if (this._isQuestion(sentence)) {
-        return sentence
-      }
-    })
-  }
+  // _isExpression (sentence) {
+  //   return sentence instanceof Expression
+  // }
 
-  _isQuestion (sentence) {
-    return sentence instanceof Question
-  }
+  // filterQuestions () {
+  //   return this._sentences.filter(sentence => {
+  //     if (this._isQuestion(sentence)) {
+  //       return sentence
+  //     }
+  //   })
+  // }
 
-  getSentenceType(sentence) {
-    if (this._isRegularSentence(sentence)) {
-      return 'regular'
-    } else if (this._isExpression(sentence)) {
-      return 'expression'
-    } else if (this._isQuestion(sentence)) {
-      return 'question'
-    }
-  }
+  // _isQuestion (sentence) {
+  //   return sentence instanceof Question
+  // }
+
+  // getSentenceType(sentence) {
+  //   if (this._isRegularSentence(sentence)) {
+  //     return 'regular'
+  //   } else if (this._isExpression(sentence)) {
+  //     return 'expression'
+  //   } else if (this._isQuestion(sentence)) {
+  //     return 'question'
+  //   }
+  // }
 }
