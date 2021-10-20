@@ -22,35 +22,32 @@ import { Sentences } from './Sentences.js'
     this._parser.buildSentencesFromTokens(this._tokenizer.matchingTokenSet)
   }
 
-  getAllSentencesAsStrings () {
-    return this._fetchAllSentences().map(sentence => sentence.getStringSentence)
+  // getAllSentencesAsStrings () {
+  //   const sentences = []   
+  //   this._fetchAllSentences().forEach(s => {
+  //     sentences.push({
+  //       string: s.getStringSentence,
+  //       type: this._sentences.getSentenceType(s)
+  //     })
+  //   })
+  //   return sentences
+  // }
+
+  fetchAllSentences () {
+    return this._sentences
   }
 
-  _fetchAllSentences () {
-    return this._sentences.parsedSentences
-  }
-
-  getRegularSentencesAsStrings () {
-    return this._fetchRegularSentences().map(sentence => sentence.getStringSentence)
-  }
-
-  _fetchRegularSentences () {
+  fetchRegularSentences () {
     return this._sentences.filterRegularSentences()
   }
 
-  getExpressionsAsStrings () {
-    return this._fetchExpressions().map(sentence => sentence.getStringSentence)
-  }
 
-  _fetchExpressions () {
+  fetchExpressions () {
     return this._sentences.filterExpressions()
   }
 
-  getQuestionsAsStrings () {
-    return this._fetchQuestions().map(sentence => sentence.getStringSentence)
-  }
 
-  _fetchQuestions () {
+  fetchQuestions () {
     return this._sentences.filterQuestions()
   }
  }

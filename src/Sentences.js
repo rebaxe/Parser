@@ -65,4 +65,14 @@ import { RegularSentence } from './RegularSentence.js'
   _isQuestion (sentence) {
     return sentence instanceof Question
   }
- }
+
+  getSentenceType(sentence) {
+    if (this._isRegularSentence(sentence)) {
+      return 'regular'
+    } else if (this._isExpression(sentence)) {
+      return 'expression'
+    } else if (this._isQuestion(sentence)) {
+      return 'question'
+    }
+  }
+}
