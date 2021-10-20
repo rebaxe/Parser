@@ -24,7 +24,7 @@ import { RegularSentence } from './RegularSentence.js'
       this._throwInvalidSentenceError()
     }
   }
-  
+
   _isValidSentenceEndToken(tokens) {
     const tokenBeforeEnd = tokens[tokens.length - 2]
     return this._isEndToken(tokenBeforeEnd)
@@ -52,27 +52,31 @@ import { RegularSentence } from './RegularSentence.js'
     if (this._isEmpty(newSentence)) {
       this._throwInvalidSentenceFormat()
     } else {
-      if (this._isDot(token)) {
-        newSentence.push(token)
-        this._sentences._addSentence(this._createRegularSentence(newSentence))
-      } else if (this._isExclamation(token)) {
-        newSentence.push(token)
-        this._sentences._addSentence(this._createExpression(newSentence))
-      } else if (this._isQuestionMark(token)) {
-        newSentence.push(token)
-        this._sentences._addSentence(this._createQuestion(newSentence))
-      }
+      this._sentences.addSentence(this._createSentence(newSentence, token))
+    }
+  }
+
+  _throwInvalidSentenceFormat() {
+    throw new InvalidSentenceFormat('Two end tokens (".", "!" or "?") are not allowed in a sentence.')
+  }
+
+  _createSentence(newSentence, token) {
+    if (this._isDot(token)) {
+      newSentence.push(token)
+      return new RegularSentence(newSentence)
+    } else if (this._isExclamation(token)) {
+      newSentence.push(token)
+      return new Expression(newSentence)
+    } else if (this._isQuestionMark(token)) {
+      newSentence.push(token)
+      return new Question(newSentence)
     }
   }
 
   _isEmpty(sentence) {
     return sentence.length === 0
   }
-
-   _throwInvalidSentenceFormat() {
-     throw new InvalidSentenceFormat('Two end tokens (".", "!" or "?") are not allowed in a sentence.')
-   }
-
+  
   _throwInvalidSentenceError() {
     throw new InvalidEndTokenError('Invalid end token: sentence must end with ".", "!" or "?".')
   }
@@ -96,16 +100,4 @@ import { RegularSentence } from './RegularSentence.js'
   _isEnd(token) {
     return token.tokenType === 'END'
   }
-
-  _createQuestion(tokens) {
-    return new Question(tokens)
-  }
-
-  _createExpression(tokens) {
-    return new Expression(tokens)
-  }
-
-  _createRegularSentence(tokens) {
-    return new RegularSentence(tokens)
-  }
- }
+}

@@ -25,7 +25,6 @@
     this._stringSentence = value
   }
 
-
   _constructSentenceString () {
     let string = ''
     for (let i = 0; i < this._tokens.length; i++) {
@@ -48,4 +47,4 @@
   _isNotLastWord(index, endTokenType) {
     return this._tokens[index].tokenType === 'WORD' && this._tokens[index+1].tokenType !== endTokenType
   }
- }
+}

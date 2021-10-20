@@ -19,7 +19,7 @@
     this._sentences = value
   }
 
-  _addSentence (sentence) {
+  addSentence (sentence) {
     const storedSentences = this._sentences
     storedSentences.push(sentence)
     this.parsedSentences = storedSentences
