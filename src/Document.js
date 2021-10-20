@@ -15,14 +15,13 @@ import { Sentences } from './Sentences.js'
    * @param {Tokenizer} tokenizer
    */
   constructor (tokenizer) {
-    this._tokenizer = tokenizer
     this._sentences = new Sentences()
-    this._parser = new Parser(this._sentences)
+    this._parser = new Parser(tokenizer, this._sentences)
     this._parseTokens()
   }
 
   _parseTokens () {
-    this._parser.buildSentencesFromTokens(this._tokenizer.matchingTokenSet)
+    this._parser.buildSentencesFromTokens()
   }
 
   fetchAllSentences () {

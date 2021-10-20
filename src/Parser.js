@@ -1,8 +1,10 @@
+import { Tokenizer } from '@rebaxe/tokenizer/src/Tokenizer'
 import { InvalidEndTokenError } from './errors/InvalidEndTokenError.js'
 import { InvalidSentenceFormat } from './errors/InvalidSentenceFormat.js'
 import { Expression } from './Expression.js'
 import { Question } from './Question.js'
 import { RegularSentence } from './RegularSentence.js'
+import { Sentences } from './Sentences.js'
 
 /**
  * Represents a Parser.
@@ -12,40 +14,44 @@ import { RegularSentence } from './RegularSentence.js'
  export class Parser {
   /**
    * Creates an instance of Parser.
+   * 
+   * @param {Tokenizer} tokenizer - The Tokenizer object.
+   * @param {Sentences} sentences - The Sentences object.
    */
-  constructor (sentences) {
+  constructor (tokenizer, sentences) {
+    this._tokenizer = tokenizer
     this._sentences = sentences
   }
 
-  buildSentencesFromTokens(tokens) {
-    if (this._isValidSentenceEndToken(tokens)) {
-      this._filterSentencesFromTokens(tokens)
+  buildSentencesFromTokens() {
+    if (this._isValidSentenceEndToken()) {
+      this._filterSentencesFromTokens()
     } else {
       this._throwInvalidSentenceError()
     }
   }
 
-  _isValidSentenceEndToken(tokens) {
+  _isValidSentenceEndToken() {
+    const tokens = this._tokenizer.matchingTokenSet
     const tokenBeforeEnd = tokens[tokens.length - 2]
-    return this._isEndToken(tokenBeforeEnd)
+    return this._isSentenceEndToken(tokenBeforeEnd)
   }
 
-  _isEndToken(token) {
+  _isSentenceEndToken(token) {
     return (this._isDot(token) || this._isExclamation(token) || this._isQuestionMark(token))
   }
 
-  _filterSentencesFromTokens(tokens) {
+  _filterSentencesFromTokens() {
     let newSentence = []
-    tokens.forEach(token => {
-      if (this._isWord(token)) {
-        newSentence.push(token)
-      } else if (this._isEnd(token)) {
-        return 
+    while (!this._isEnd(this._tokenizer.currentActiveToken)) {
+      if (this._isWord(this._tokenizer.currentActiveToken)) {
+        newSentence.push(this._tokenizer.currentActiveToken)
       } else {
-        this._handleSentenceEnd(newSentence, token)
+        this._handleSentenceEnd(newSentence, this._tokenizer.currentActiveToken)
         newSentence = []
       }
-    })
+      this._tokenizer.moveToNextToken()
+    }
   }
 
   _handleSentenceEnd(newSentence, token) {
