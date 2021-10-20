@@ -2,7 +2,7 @@
   "name": "@rebaxe/parser",
   "version": "1.0.0",
   "description": "1DV610 Laboration 2 - parser.",
-  "main": "app.js",
+  "main": "src/app.js",
   "type": "module",
   "scripts": {
     "start": "node src/app.js",

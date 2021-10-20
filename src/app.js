@@ -19,9 +19,3 @@ export function parse (text) {
   const tokenizer = initTokenizer(grammar, text)
   return new Document(tokenizer)
 }
-
-// const parser = parse('I love parsers! They are fun. Right?')
-// console.log(parser.getAllSentencesAsStrings())
-// console.log(parser.getRegularSentencesAsStrings())
-// console.log(parser.getExpressionsAsStrings())
-// console.log(parser.getQuestionsAsStrings())
