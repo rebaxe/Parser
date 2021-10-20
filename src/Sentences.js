@@ -1,8 +1,3 @@
-import { InvalidEndTokenError } from './errors/InvalidEndTokenError.js'
-import { Expression } from './Expression.js'
-import { Question } from './Question.js'
-import { RegularSentence } from './RegularSentence.js'
-
 /**
  * Represents a sentences.
  *

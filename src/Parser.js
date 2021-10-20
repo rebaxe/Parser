@@ -1,4 +1,5 @@
 import { InvalidEndTokenError } from './errors/InvalidEndTokenError.js'
+import { InvalidSentenceFormat } from './errors/InvalidSentenceFormat.js'
 import { Expression } from './Expression.js'
 import { Question } from './Question.js'
 import { RegularSentence } from './RegularSentence.js'
@@ -38,6 +39,8 @@ import { RegularSentence } from './RegularSentence.js'
     tokens.forEach(token => {
       if (this._isWord(token)) {
         newSentence.push(token)
+      } else if (this._isEnd(token)) {
+        return 
       } else {
         this._handleSentenceEnd(newSentence, token)
         newSentence = []
@@ -46,17 +49,29 @@ import { RegularSentence } from './RegularSentence.js'
   }
 
   _handleSentenceEnd(newSentence, token) {
-    if (this._isDot(token)) {
-      newSentence.push(token)
-      this._sentences._addSentence(this._createRegularSentence(newSentence))
-    } else if (this._isExclamation(token)) {
-      newSentence.push(token)
-      this._sentences._addSentence(this._createExpression(newSentence))
-    } else if (this._isQuestionMark(token)) {
-      newSentence.push(token)
-      this._sentences._addSentence(this._createQuestion(newSentence))
+    if (this._isEmpty(newSentence)) {
+      this._throwInvalidSentenceFormat()
+    } else {
+      if (this._isDot(token)) {
+        newSentence.push(token)
+        this._sentences._addSentence(this._createRegularSentence(newSentence))
+      } else if (this._isExclamation(token)) {
+        newSentence.push(token)
+        this._sentences._addSentence(this._createExpression(newSentence))
+      } else if (this._isQuestionMark(token)) {
+        newSentence.push(token)
+        this._sentences._addSentence(this._createQuestion(newSentence))
+      }
     }
   }
+
+  _isEmpty(sentence) {
+    return sentence.length === 0
+  }
+
+   _throwInvalidSentenceFormat() {
+     throw new InvalidSentenceFormat('Two end tokens (".", "!" or "?") are not allowed in a sentence.')
+   }
 
   _throwInvalidSentenceError() {
     throw new InvalidEndTokenError('Invalid end token: sentence must end with ".", "!" or "?".')
@@ -76,6 +91,10 @@ import { RegularSentence } from './RegularSentence.js'
 
   _isDot(token) {
     return token.tokenType === 'DOT'
+  }
+
+  _isEnd(token) {
+    return token.tokenType === 'END'
   }
 
   _createQuestion(tokens) {

@@ -3,6 +3,7 @@ import { Expression } from '../src/Expression.js'
 import { Question } from '../src/Question.js'
 import { InvalidEndTokenError } from '../src/errors/InvalidEndTokenError.js'
 import { parse } from '../src/app.js'
+import { InvalidSentenceFormat } from '../src/errors/InvalidSentenceFormat.js'
 
 describe('Get sentences in string format', () => {
   it('All sentences returns expected strings', () => {
@@ -60,6 +61,9 @@ describe('Error handling', () => {
   })
   it('Should throw error if string is empty.', () => {
     expect(() => parse('  ')).toThrow(Error)
+  })
+  it('Should throw error if sentence has two end tokens.', () => {
+    expect(() => parse('Aa!?')).toThrow(InvalidSentenceFormat)
   })
 })
 
