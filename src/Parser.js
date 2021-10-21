@@ -1,4 +1,3 @@
-import { Tokenizer } from '@rebaxe/tokenizer/src/Tokenizer'
 import { InvalidEndTokenError } from './errors/InvalidEndTokenError.js'
 import { InvalidSentenceFormat } from './errors/InvalidSentenceFormat.js'
 import { Expression } from './Expression.js'

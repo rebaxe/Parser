@@ -13,10 +13,6 @@
     this._constructSentenceString()
   }
 
-  get getSentenceTokens() {
-    return this._tokens
-  }
-  
   get getStringSentence() {
     return this._stringSentence
   }
