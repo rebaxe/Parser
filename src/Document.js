@@ -12,11 +12,10 @@ import { Sentences } from './Sentences.js'
  export class Document {
   /**
    * Creates an instance of Document.
-   * @param {Tokenizer} tokenizer
    */
-  constructor (tokenizer) {
-    this._sentences = new Sentences()
-    this._parser = new Parser(tokenizer, this._sentences)
+  constructor (sentences, parser) {
+    this._sentences = sentences
+    this._parser = parser
     this._parseTokens()
   }
 
