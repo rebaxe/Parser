@@ -1,5 +1,6 @@
 import { initTokenizer } from '@rebaxe/tokenizer'
 import { Document } from './Document.js'
+import { Sentences } from './Sentences.js'
 
 const grammar = [{
   tokenType: 'WORD',
@@ -17,5 +18,6 @@ const grammar = [{
 
 export function parse (text) {
   const tokenizer = initTokenizer(grammar, text)
-  return new Document(tokenizer)
+  const sentences = new Sentences()
+  return new Document(tokenizer, sentences)
 }
