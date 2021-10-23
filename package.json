@@ -1,6 +1,6 @@
 {
   "name": "@rebaxe/parser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "1DV610 Laboration 2 - parser.",
   "main": "src/app.js",
   "type": "module",
