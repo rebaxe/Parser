@@ -1,0 +1,27 @@
+{
+  "name": "@rebaxe/parser",
+  "version": "1.0.1",
+  "description": "1DV610 Laboration 2 - parser.",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.lnu.se:1dv610/student/ra223ai/l2.git"
+  },
+  "keywords": [],
+  "author": "Rebecca Axelsson <ra223ai@lnu.se>",
+  "license": "MIT",
+  "dependencies": {
+    "@rebaxe/tokenizer": "^1.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-standard": "^5.0.0",
+    "jest": "^27.3.0"
+  }
+}
